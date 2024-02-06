@@ -1,0 +1,72 @@
+import '../css/Home.css';
+import Logo from '../assets/logo.png'
+import FNBGameplay from '../assets/fnbpreview.mp4'
+import Gamemode from '../components/Gamemode'
+
+const descriptions = [
+  "In Funkin, you must hit notes when they fully overlap the <b>note receptors</b>. Sometimes,<br/>you have to hold notes as well, and on certain songs, you have to avoid mines!<br/><br/>Funkin's default controls are <b>WASD</b> and the <b>arrow keys</b>. You can change these in the<br/><b>settings menu.</b>",
+  "In Taiko, you must hit the red and blue notes to the beat of the song when they overlap the note<br/>receptor. Sometimes, songs even demand drumrolls and balloons!<br/><br/>Taiko's default controls are (blue text)DK(/blue text) for the rim of the drum and (red text)FJ(/red text)<br/>for the center of the drum. You can change these in the settings menu."
+]
+
+function Home() {
+
+  return (
+    <div className="home">
+      <div className='darken'></div>
+
+      <div className="main">
+        <br />
+        <div className="header">
+          <div className="header-bg">
+            <video className="header-video" autoPlay muted loop>
+              <source src={FNBGameplay} type='video/mp4'/>
+            </video>
+            <img src={Logo} alt="An orange logo with the text 'FNB'" className="header-image" />
+          </div>
+        </div>
+
+        <div className="thing">
+          <h1 className="question">
+            WELCOME TO FNB!
+          </h1>
+          <h3 className="answer">
+             <b>Friday Night Bloxxin'</b> is a collection of rhythm game clones coded in Luau and hosted on Roblox. <br />The game initially started off as a clone of <b>Friday Night Funkin'</b>, but grew larger and larger to<br /> feature other <b>game modes</b>.
+             <br/><br/>
+             You can play in both <b>Singleplayer</b> or <b>Multiplayer</b> against <b>other players.</b> in Multiplayer, the player <br/> who has the most score wins. The winner gets awarded with <b>Points</b> that can be used to purchase<br/>animations, emotes, and more stuff found in the <b>Shop.</b>
+             <br/><br/>
+             The game started development in 2021 by <b>Robotic_Developer</b>, who quit after certain situations<br/>that happened because of the game. Ownership has since been moved to <b>Ava</b> and <b>Eerie.</b>
+          </h3>
+        </div>
+
+        <div className="thing">
+          <h1 className="question">
+            WHAT GAMEMODES ARE THERE?
+          </h1>
+          <div className="gamemode-list">
+            <Gamemode Text={"Funkin"} Description={descriptions[0]} Selected={true} />
+            <Gamemode Text={"Taiko"} Description={descriptions[1]} />
+            <Gamemode Text={"Undefined"} />
+            <Gamemode Text={"Undefined 2"} />
+          </div>
+          <br />
+          <h3 className="answer gamemode-answer" id="gamemode-answer-id"/>
+        </div>
+
+        <div className="thing">
+          <h1 className="question">
+            OK COOL, WHERE DO I PLAY IT?
+          </h1>
+          <h3 className="answer">
+            You can play Friday Night Bloxxin' in <button>Roblox</button>
+          </h3>
+        </div>
+      </div>
+      
+      <div class="bg-container">
+          <div class="bg" />
+        </div>
+    </div>
+  );
+}
+
+export default Home;
