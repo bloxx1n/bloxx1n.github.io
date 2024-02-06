@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/bloxxin/static/css/main.3841e353.css",
+    "main.js": "/bloxxin/static/js/main.34aae251.js",
+    "static/js/592.1124889c.chunk.js": "/bloxxin/static/js/592.1124889c.chunk.js",
+    "static/media/fnbpreview.mp4": "/bloxxin/static/media/fnbpreview.336643ba196eecdf5709.mp4",
+    "static/media/logo.png": "/bloxxin/static/media/logo.daa2044ab0607a455f3c.png",
+    "index.html": "/bloxxin/index.html",
+    "main.3841e353.css.map": "/bloxxin/static/css/main.3841e353.css.map",
+    "main.34aae251.js.map": "/bloxxin/static/js/main.34aae251.js.map",
+    "592.1124889c.chunk.js.map": "/bloxxin/static/js/592.1124889c.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3841e353.css",
+    "static/js/main.34aae251.js"
+  ]
+}

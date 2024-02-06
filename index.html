@@ -1,0 +1,72 @@
+<!doctype html><html lang="en"><head><script src="https://xemantic.github.io/shader-web-background/dist/shader-web-background.min.js"></script><meta charset="utf-8"/><link rel="icon" href="/bloxxin/favicon.ico"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#000000"/><meta name="description" content="FRIDAY NIGHT BLOXXIN"/><link rel="apple-touch-icon" href="/bloxxin/logo192.png"/><link rel="manifest" href="/bloxxin/manifest.json"/><title>FRIDAY NIGHT BLOXXIN'</title><script defer="defer" src="/bloxxin/static/js/main.34aae251.js"></script><link href="/bloxxin/static/css/main.3841e353.css" rel="stylesheet"></head><body><noscript>You need to enable JavaScript to run this app.</noscript><div id="root"></div></body><script type="x-shader/x-fragment" id="image">precision highp float;
+  
+  uniform float iTime;
+  uniform vec2 iResolution;
+  float random (in vec2 _st) {
+    return fract(sin(dot(_st.xy,
+                         vec2(12.9898,78.233)))*
+        43758.5453123);
+}
+
+float noise (in vec2 _st) {
+    vec2 i = floor(_st);
+    vec2 f = fract(_st);
+
+    // Four corners in 2D of a tile
+    float a = random(i);
+    float b = random(i + vec2(1.0, 0.0));
+    float c = random(i + vec2(0.0, 1.0));
+    float d = random(i + vec2(1.0, 1.0));
+
+    vec2 u = f * f * (3.0 - 2.0 * f);
+
+    return mix(a, b, u.x) +
+            (c - a)* u.y * (1.0 - u.x) +
+            (d - b) * u.x * u.y;
+}
+
+#define NUM_OCTAVES 5
+
+float fbm ( in vec2 _st) {
+    float v = 0.0;
+    float a = 0.5;
+    vec2 shift = vec2(100.0);
+    // Rotate to reduce axial bias
+    mat2 rot = mat2(cos(0.5), sin(0.5),
+                    -sin(0.5), cos(0.50));
+    for (int i = 0; i < NUM_OCTAVES; ++i) {
+        v += a * noise(_st);
+        _st = rot * _st * 2.0 + shift;
+        a *= 0.5;
+    }
+    return v;
+}
+
+void mainImage(out vec4 fragColor, in vec2 fragCoord) {
+    vec2 st = fragCoord.xy / iResolution.xy*3.;
+   
+    st.x *= iResolution.x / iResolution.y;
+    
+    //st += st * abs(sin(iTime*0.1)*3.0);
+    
+    vec3 color = vec3(0.0);
+
+    vec2 q = vec2(0.);
+    q.x = fbm( st + 0.00*iTime);
+    q.y = fbm( st + vec2(1.0));
+
+    vec2 r = vec2(0.);
+    r.x = fbm( st + 1.0*q + vec2(1.7,9.2)+ 0.15*iTime );
+    r.y = fbm( st + 1.0*q + vec2(8.3,2.8)+ 0.126*iTime);
+
+    float f = fbm(st+r);
+
+    color = mix(vec3(1.0,0.5,0.),vec3(0.0,0.0,0.0),clamp((f*f)*4.0,0.0,0.0));
+    color = mix(color,vec3(0,0,0.0),clamp(length(q),0.0,0.0));
+    color = mix(color,vec3(0.0,1,1),clamp(length(r.x),0.0,0.));
+
+    fragColor = vec4((f*f*f+.6*f*f+.5*f)*color,1.0);
+}
+  void main() {
+    mainImage(gl_FragColor, gl_FragCoord.xy);
+  }</script><script>var mouseX,mouseY;document.addEventListener("mousemove",(e=>{mouseX=e.clientX,mouseY=e.clientY})),shaderWebBackground.shade({canvas:document.getElementById("my-canvas"),onInit:e=>{mouseX=e.cssWidth/2,mouseY=e.cssHeight/2,e.iFrame=0},onResize:(e,o,i)=>{i.iMinDimension=Math.min(e,o)},onBeforeFrame:e=>{e.shaderMouseX=e.toShaderX(mouseX),e.shaderMouseY=e.toShaderY(mouseY)},shaders:{image:{uniforms:{iTime:(e,o)=>e.uniform1f(o,performance.now()/1e3),iFrame:(e,o)=>e.uniform1i(o,ctx.iFrame),iMinDimension:(e,o,i)=>e.uniform1f(o,i.iMinDimension),iResolution:(e,o,i)=>e.uniform2f(o,i.width,i.height),iMouse:(e,o,i)=>e.uniform2f(o,i.shaderMouseX,i.shaderMouseY),iChannel0:(e,o,i)=>i.texture(o,i.buffers.BufferA)}}},onAfterFrame:e=>{e.iFrame++},onError:(e,o)=>{o.remove(),console.error(e),document.documentElement.classList.add("my-fallback")}})</script></html>
